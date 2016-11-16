@@ -1,4 +1,4 @@
-# Word2Vec - Tensorflow Implementation according to Stanford 224d
+# Word2Vec - TensorFlow Implementation According to Stanford 224d
 ---
 ## Skip-Gram - Negative Sampling
 ### Results Plot
