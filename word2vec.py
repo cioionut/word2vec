@@ -1,21 +1,7 @@
-# Copyright 2015 The TensorFlow Authors. All Rights Reserved.
+# A modified version of Word2Vec TensorFlow implementation
+# (github.com/tensorflow/tensorflow/tree/r0.11/tensorflow/examples/tutorials/word2vec)
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# ==============================================================================
-
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+# According to Stanford 224d Course
 
 import collections
 import math
@@ -210,13 +196,10 @@ with graph.as_default():
   outcorpus_loss_perexample = tf.reduce_sum(tf.log(outcorpus_probabilities), 1)
   loss_perexample = - tf.log(incorpus_probabilities) - outcorpus_loss_perexample
 
-  # incorpus_loss = tf.reduce_sum(tf.log(incorpus_probabilities))
-  # outcorpus_loss = tf.reduce_sum(tf.log(outcorpus_probabilities))
   loss =  tf.reduce_sum(loss_perexample) / batch_size
-  # loss = - (incorpus_loss + outcorpus_loss) / batch_size
 
-  # Construct the SGD optimizer using a learning rate of 1.0.
-  optimizer = tf.train.GradientDescentOptimizer(0.4).minimize(loss)
+  # Construct the SGD optimizer using a learning rate of 0.4.
+  optimizer = tf.train.GradientDescentOptimizer(.4).minimize(loss)
 
   # Compute the cosine similarity between minibatch examples and all embeddings.
   norm = tf.sqrt(tf.reduce_sum(tf.square(input_vectors + output_vectors), 1, keep_dims=True))
@@ -245,8 +228,6 @@ with tf.Session(graph=graph) as session:
 
     # We perform one update step by evaluating the optimizer op (including it
     # in the list of returned values for session.run()
-    # x = session.run(loss_perexample, feed_dict)
-    # print(x.shape, x)
     _, loss_val = session.run([optimizer, loss], feed_dict=feed_dict)
     average_loss += loss_val
 
